@@ -1,27 +1,118 @@
-<form action="User_SignUP.php" method="POST">
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="sheet2.css">
+  <title></title>
+</head>
+<body>
+ 
+<form name="sub" method="POST">
   <fieldset>
     <legend>Sign Up to User Account:</legend>
     Name:
     <input type="text" name="name" value=" "><br><br>
     Current Address:
     <input type="text" name="address" value=" "><br><br>
-	E-mail Address:
+  E-mail Address:
     <input type="text" name="email" value=" "><br><br>
-	Mobile Number:
+  Mobile Number:
     <input type="text" name="mobile" value=" "><br><br>
-	Blood Group:
+  Blood Group:
     <input type="text" name="group" value=" "><br><br>
-	Birth Date:
+  Birth Date:
     <input type="text" name="BirthDate" value=" "><br><br>
-	Height:
+  Height:
     <input type="text" name="height" value=" "><br><br>
-	Weight:
+  Weight:
     <input type="text" name="weight" value=" "><br><br>
-	<p>Please select your gender:</p>
+  <p>Please select your gender:</p>
   <input type="radio" name="gender" value="male"> Male<br>
   <input type="radio" name="gender" value="female"> Female<br>
   <input type="radio" name="gender" value="other"> Other<br> 
   <br>
-    <input type="submit" value="Submit">
   </fieldset>
 </form>
+ <p id="demo"></p>
+    
+  
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+     <!-- The core Firebase JS SDK is always required and must be listed first -->
+     <button onclick="myfunc()">CLCK ME</button>
+<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+
+<script>
+  // Your web app's Firebase configuration
+  
+  var firebaseConfig = {
+    apiKey: "AIzaSyBsnLhAz7CeJoTf62tjSqSWdWWDelLcJL8",
+    authDomain: "debugentity-f03e9.firebaseapp.com",
+    databaseURL: "https://debugentity-f03e9.firebaseio.com",
+    projectId: "debugentity-f03e9",
+    storageBucket: "debugentity-f03e9.appspot.com",
+    messagingSenderId: "534250270372",
+    appId: "1:534250270372:web:de1603a92141167a094031"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  function myfunc(){
+      var db = firebase.firestore();
+      var name ="NULL";
+      var address="NULL";
+      var mail="NULL";
+      var mobile="NULL";
+      var bloodgroup="NULL";
+      var bday="NULL";
+      var height = "NULL";
+      var weight= "NULL";
+      var gender="NULL";
+      name=document.forms["sub"]["name"];
+      address=document.forms["sub"]["address"];
+      mail=document.forms["sub"]["email"];
+      mobile=document.forms["sub"]["mobile"];
+      bloodgroup=document.forms["sub"]["group"];
+      bday=document.forms["sub"]["BirthDate"];
+      height=document.forms["sub"]["height"];
+      weight=document.forms["sub"]["weight"];
+      gender=document.forms["sub"]["gender"];
+      db.collection("Patients").add({
+          Name: name.value,
+          Address: address.value,
+          Email: mail.value,
+          Contact: mobile.value,
+          BG: bloodgroup.value,
+          BirthDay: bday.value,
+          Height: height.value,
+          Weight: weight.value,
+          Gender: gender.value
+      })
+      .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
+      db.collection("Patients").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            document.getElementById("demo").innerHTML = "Hello "+name.value+"! Your System generated ID is "+doc.id;
+            console.log(`${doc.id} => ${doc.data()}`);
+        });
+    });
+  }
+
+</script>
+
+</body>
+</html>
